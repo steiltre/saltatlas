@@ -232,7 +232,7 @@ endif ()
 
 add_library(saltatlas INTERFACE)
 add_library(saltatlas::saltatlas ALIAS saltatlas)
-target_compile_features(saltatlas INTERFACE cxx_std_17)
+target_compile_features(saltatlas INTERFACE cxx_std_20)
 target_include_directories(
     saltatlas INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
                         $<INSTALL_INTERFACE:include>
