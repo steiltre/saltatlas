@@ -259,7 +259,7 @@ template <typename id_type, typename point_t, typename H, typename E,
 void read_points(
     const std::vector<std::filesystem::path>          &file_names,
     point_store<id_type, point_t, H, E, pstore_alloc> &local_point_store,
-    const std::function<int(const id_t &id)>          &point_partitioner,
+    const std::function<int(const id_type &id)>       &point_partitioner,
     ygm::comm &comm, const bool verbose) {
   const auto parser = [](const std::string &input, point_t &point) {
     const auto buf = str_split<typename point_t::value_type>(input);
