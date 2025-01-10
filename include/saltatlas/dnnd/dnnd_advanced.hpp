@@ -17,15 +17,15 @@
 #include <metall/utility/metall_mpi_adaptor.hpp>
 #include <ygm/comm.hpp>
 
-#include "saltatlas/common/point_store.hpp"
 #include "saltatlas/common/data_reader.hpp"
+#include "saltatlas/common/detail/utilities/iterator_proxy.hpp"
+#include "saltatlas/common/point_store.hpp"
 #include "saltatlas/dnnd/detail/distance.hpp"
 #include "saltatlas/dnnd/detail/dnnd_kernel.hpp"
 #include "saltatlas/dnnd/detail/nn_index.hpp"
 #include "saltatlas/dnnd/detail/nn_index_optimizer.hpp"
 #include "saltatlas/dnnd/detail/query_kernel.hpp"
 #include "saltatlas/dnnd/detail/utilities/hash.hpp"
-#include "saltatlas/common/detail/utilities/iterator_proxy.hpp"
 #include "saltatlas/dnnd/feature_vector.hpp"
 
 namespace saltatlas {
@@ -263,7 +263,7 @@ class dnnd {
       return true;
     };
 
-    saltatlas::dndetail::read_points_with_id_helper(
+    saltatlas::detail::read_points_with_id_helper(
         point_file_paths, parser_wrapper, *m_pstore,
         priv_get_point_partitioner(), m_comm, false);
   }
