@@ -82,7 +82,7 @@ find_package(Boost 1.64 QUIET)
 if (NOT Boost_FOUND)
     FetchContent_Declare(
         Boost
-        URL https://boostorg.jfrog.io/artifactory/main/release/1.79.0/source/boost_1_79_0.tar.bz2
+        URL https://archives.boost.io/release/1.79.0/source/boost_1_79_0.tar.bz2
     )
     FetchContent_GetProperties(Boost)
     if (Boost_POPULATED)
