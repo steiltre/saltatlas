@@ -14,11 +14,12 @@
 #include <saltatlas/dhnsw/detail/logical_physical_mapper.hpp>
 #include <saltatlas/dhnsw/detail/metric_hyperplane_partitioner.hpp>
 #include <saltatlas/dhnsw/detail/query_manager.hpp>
-#include <saltatlas/point_store.hpp>
 
-#include <saltatlas/dnnd/data_reader.hpp>
-#include <saltatlas/dnnd/detail/neighbor.hpp>
-#include <saltatlas/dnnd/detail/utilities/iterator_proxy.hpp>
+#include <saltatlas/common/point_store.hpp>
+
+#include <saltatlas/common/data_reader.hpp>
+#include <saltatlas/common/detail/neighbor.hpp>
+#include <saltatlas/common/detail/utilities/iterator_proxy.hpp>
 
 namespace saltatlas {
 
@@ -45,10 +46,10 @@ class dhnsw {
 
   /// \brief Neighbor type (contains a neighbor ID and the distance to the
   /// neighbor).
-  using neighbor_type = typename dndetail::neighbor<id_type, distance_type>;
+  using neighbor_type = typename detail::neighbor<id_type, distance_type>;
 
   using iterator_proxy_type =
-      dndetail::iterator_proxy<typename point_store_type::const_iterator>;
+      detail::iterator_proxy<typename point_store_type::const_iterator>;
 
  private:
   using point_partitioner =
@@ -114,7 +115,7 @@ class dhnsw {
     const std::function<int(const id_type &)> partition_identity_function(
         [this](const id_type &id) { return m_comm.rank(); });
 
-    saltatlas::dndetail::read_points_with_id_helper(
+    saltatlas::detail::read_points_with_id_helper(
         point_file_paths, parser_wrapper, m_point_store,
         partition_identity_function, m_comm, false);
   }
@@ -143,7 +144,7 @@ class dhnsw {
   };
 
   template <typename QueryIterator>
-  std::vector<std::vector<dndetail::neighbor<id_type, distance_type>>> query(
+  std::vector<std::vector<detail::neighbor<id_type, distance_type>>> query(
       QueryIterator queries_begin, QueryIterator queries_end, const int k) {
     dhnsw_detail::query_manager q(m_comm, m_point_store, m_partitioner,
                                   m_local_hnsw, m_data_partition_recommender,

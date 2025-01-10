@@ -12,8 +12,8 @@
 #include <hnswlib/hnswalg.h>
 #include <hnswlib/hnswlib.h>
 
-#include <saltatlas/partitioner/median.hpp>
-#include <saltatlas/point_store.hpp>
+#include <saltatlas/common/point_store.hpp>
+#include <saltatlas/dhnsw/detail/median.hpp>
 
 #include <ygm/comm.hpp>
 #include <ygm/container/map.hpp>

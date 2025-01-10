@@ -7,7 +7,6 @@
 #include <ygm/io/line_parser.hpp>
 
 #include <saltatlas/dhnsw/dhnsw.hpp>
-#include <saltatlas/dnnd/dnnd_simple.hpp>
 #include "dnnd_example_common.hpp"
 
 #include <hnswlib/space_l2.h>

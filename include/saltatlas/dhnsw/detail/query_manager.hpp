@@ -7,7 +7,8 @@
 
 #include <ygm/comm.hpp>
 
-#include <saltatlas/dnnd/detail/neighbor.hpp>
+#include <saltatlas/common/detail/neighbor.hpp>
+#include <saltatlas/common/detail/neighbor_cereal.hpp>
 
 #include <limits>
 #include <queue>
@@ -61,9 +62,9 @@ class query_manager {
   }
 
   template <typename QueryIterator>
-  std::vector<std::vector<dndetail::neighbor<id_type, distance_type>>> query(
+  std::vector<std::vector<detail::neighbor<id_type, distance_type>>> query(
       QueryIterator queries_begin, QueryIterator queries_end) {
-    std::vector<std::vector<dndetail::neighbor<id_type, distance_type>>>
+    std::vector<std::vector<detail::neighbor<id_type, distance_type>>>
         to_return(std::distance(queries_begin, queries_end));
 
     size_t query_index{0};
@@ -94,7 +95,7 @@ class query_manager {
       size_t pos = to_return[i].size() - 1;
       while (not tracker.current_nn.empty()) {
         assert(pos >= 0);
-        const dndetail::neighbor<id_type, distance_type> &nn =
+        const detail::neighbor<id_type, distance_type> &nn =
             tracker.current_nn.top();
         to_return[i][pos] = nn;
         tracker.current_nn.pop();
@@ -160,7 +161,7 @@ class query_manager {
     std::vector<partition_id_type> partitions_to_query;
     int                            current_hops;
     int                            outstanding_queries;
-    std::priority_queue<dndetail::neighbor<id_type, distance_type>> current_nn;
+    std::priority_queue<detail::neighbor<id_type, distance_type>> current_nn;
   };
 
   struct query_functor {
@@ -174,8 +175,8 @@ class query_manager {
       auto local_nn = pthis->m_local_search.search(
           point, pthis->m_query_params.k, local_partition_id);
 
-      std::vector<dndetail::neighbor<id_type, distance_type>> neighbor_vec;
-      std::vector<partition_id_type> neighbor_partitions;
+      std::vector<detail::neighbor<id_type, distance_type>> neighbor_vec;
+      std::vector<partition_id_type>                        neighbor_partitions;
       while (not local_nn.empty()) {
         const auto &[dist, ngbr_id] = local_nn.top();
 
@@ -211,11 +212,10 @@ class query_manager {
   };
 
   struct response_functor {
-    void operator()(
-        ygm::ygm_ptr<self_type> pthis, const int local_query_id,
-        const std::vector<dndetail::neighbor<id_type, distance_type>>
-                                             neighbor_dist_id_vec,
-        const std::vector<partition_id_type> neighbor_partitions) {
+    void operator()(ygm::ygm_ptr<self_type> pthis, const int local_query_id,
+                    const std::vector<detail::neighbor<id_type, distance_type>>
+                                                         neighbor_dist_id_vec,
+                    const std::vector<partition_id_type> neighbor_partitions) {
       auto &tracker = pthis->m_trackers[local_query_id];
 
       for (const auto &dist_id : neighbor_dist_id_vec) {

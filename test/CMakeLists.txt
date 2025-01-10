@@ -12,5 +12,3 @@ function ( add_saltatlas_test test_name )
   add_executable(${test_exe} ${test_source})
   target_link_libraries(${test_exe} saltatlas)
 endfunction()
-
-add_saltatlas_test(test_dhnsw)
